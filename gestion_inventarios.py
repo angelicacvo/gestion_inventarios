@@ -4,11 +4,11 @@ price = ""
 quantity = ""
 inventory = {}
 
-# Función que valida que los valores no estén vacíos y sean caracteres alfanumericos
+# Inicialización de variables y diccionario vacío
 def validate_str(value):
   return value.strip() != "" and value.isalpha()
 
-# Función que valida que los valores sean numericos y mayores a 0
+# Inicialización de variables y diccionario vacío
 def validate_num(value):
   return value.isdigit() and int(value) > 0
 
@@ -22,9 +22,10 @@ def create_product(product_name, price, quantity):
     if product_name in inventory:
       print("Este artículo ya se encuentra en el inventario, si deseas puedes actualizarlo")
       return
+
     price = input("Ingresa el precio del producto ")
     quantity = input("Ingresa la cantidad del producto ")
-    if not validate_num(price) or validate_num(quantity):
+    if not validate_num(price) and validate_num(quantity):
       print("Error. Ingresa un valor válido")
       continue
     inventory[product_name] = {"Precio": price, "Cantidad": quantity}
@@ -32,7 +33,7 @@ def create_product(product_name, price, quantity):
     # el usuario debe presionar n o no para salir del programa.
     choice = input("¿deseas ingresar otro producto? [s/n]").lower()
     match choice:
-      case "n" | "no":
+      case "n":
         break
 
 # Función que verifica que el nombre del producto exista en el diccionario e imprime los valores si los encuentra. Retorna dos valores (price y quantity) o None.
@@ -40,19 +41,18 @@ def get_product():
     product_name = input("Ingresa el nombre del producto ")
     if not validate_str(product_name):
       print("Error. Ingresa un valor válido")
-      return None, None
+      return
     if product_name in inventory:
-      price = inventory[product_name]['Precio']
-      quantity = inventory[product_name]['Cantidad']
+      price = inventory[product_name]['Cantidad']
+      quantity = inventory[product_name]['Precio']
       print("Nombre: ", product_name)
       print("Cantidad: ", price)
       print("Precio: ", quantity)
       return price, quantity
     else:
-      print("El producto no existe en el inventario")
-      return None, None
+       print("El producto no existe en el inventario")
 
-# Función que actualiza el producto al cual el usuario le desea cambiar el precio.
+# Función que verifica que el nombre del producto exista en el diccionario e imprime los valores si los encuentra. Retorna dos valores (price y quantity) o None.
 def update_product():
   product_name = input("Ingresa el nombre del producto ")
   if product_name in inventory:
@@ -67,16 +67,16 @@ def update_product():
   else:
     print("Producto no existente")
 
-#Función que elimina el nombre del producto que el usuario ingresa (elimina el diccionario completo)
+# Función que verifica que el nombre del producto exista en el diccionario e imprime los valores si los encuentra. Retorna dos valores (price y quantity) o None.
 def delete_product():
   product_name = input("Ingresa el nombre del producto ")
   if product_name in inventory:
-    inventory.pop(product_name)
-    print(f"Tu producto: {product_name} fue eliminado con éxito")
-  else:
     print("Producto no encontrado")
+  else:
+    inventory.pop(product_name)
+    print(inventory)
 
-# Función que calcular el monto total del inventario, utilizando una función lambda que recibe dos parámetros y los multiplica para luego hacer una sumatoria total.
+# Función que verifica que el nombre del producto exista en el diccionario e imprime los valores si los encuentra. Retorna dos valores (price y quantity) o None.
 def calculate_inventory():
   total = 0
   multiplication = lambda x, y: x * y
@@ -85,7 +85,7 @@ def calculate_inventory():
     total = total + multiplication_for_product
   print(f"El total del inventario actual es: {total}")
 
-# Función de menú que retorna el valor de option para utilizarlo en el match
+# utilización de las funciones dentro de cada opción del menú
 def menu():
   option = input("""
   Bienvenido a tu inventario. Ingresa la opción que deseas realizar
@@ -99,7 +99,6 @@ def menu():
   """)
   return option
 
-# utilización de las funciones dentro de cada opción del menú
 flag = True
 while flag != 6:
   match menu():
@@ -110,6 +109,6 @@ while flag != 6:
     case "5": calculate_inventory()
     case "6":
       break
-# Si la persona ingresa un valor diferente va a generar un error.
+    # Si la persona ingresa un valor diferente va a generar un error.
     case _:
       print("Opción no válida")
