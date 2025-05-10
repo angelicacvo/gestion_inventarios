@@ -71,17 +71,18 @@ def update_product():
 def delete_product():
   product_name = input("Ingresa el nombre del producto ")
   if product_name in inventory:
-    print("Producto no encontrado")
-  else:
     inventory.pop(product_name)
     print(inventory)
+  else:
+    print("Producto no encontrado")
+    
 
 # Función que verifica que el nombre del producto exista en el diccionario e imprime los valores si los encuentra. Retorna dos valores (price y quantity) o None.
 def calculate_inventory():
   total = 0
   multiplication = lambda x, y: x * y
   for product_name in inventory:
-    multiplication_for_product = multiplication(inventory[product_name]['Precio'], inventory[product_name]['Cantidad'])
+    multiplication_for_product = multiplication(int(inventory[product_name]['Precio']), int(inventory[product_name]['Cantidad']))
     total = total + multiplication_for_product
   print(f"El total del inventario actual es: {total}")
 
